@@ -35,4 +35,4 @@ The section below covers how commands may not work as intended.
 The `git push` command can fail if the remote branch diverges from the local branch. In this situation, not all the commits in the remote branch are in the local branch. You can resolve this issue with two solutions.
 
 - Synchronize your remote branch with `git pull` 
-- Use `git fetch`, then `git merge` to syncrhonize the branches
+- Use `git fetch`, then `git merge` to synchronize the branches
