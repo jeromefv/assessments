@@ -1,9 +1,38 @@
 ## Content
 
-### What is the difference between push, pull, and fetch?
+### Comparing `git` commands `push`, `fetch`, and `pull`
 
-- `git push` - sent changes from a local branch to a remote repo
-- `git fetch` - get changes from a remote repo into your tracking branch
-- `git pull` - will get changes from a remote branch into your tracking branch and merge them into a local branch
+The `git` commands `push`, `fetch`, and `pull` have complementary actions for changes to a branch and repository (repo).  Each command manages changes between a local repo and a remote repo and their respective branches. The list below describes how each command works.
 
-Often `git push` and `git pull` are described as equivalent. This isn't entirely correct, since under the hood `git pull` does two things. `git push` takes our current branch, and checks to see whether or not there is a tracking branch for a remote repository connected to it. If so, our changes are taken from our branch and pushed to the remote branch. This is how code is shared with a remote repository, you can think of it as "make the remote branch resemble my local branch". This will fail if the remote branch has diverged from your local branch: if not all the commits in the remote branch are in your local branch. When this happens, your local branch needs to be synchronized with the remote branch with git pull or git fetch and git merge.`git fetch` again takes our current branch, and checks to see if there is a tracking branch. If so, it looks for changes in the remote branch, and pulls them into the tracking branch. It does not change your local branch. To do that, you'll need to do `git merge origin/master` (for the "master" branch) to merge those changes into your branch - probably also called "master".`git pull` simply does a `git fetch` followed immediately by `git merge`. This is often what we desire to do, but some people prefer to use git fetch followed by git merge to make sure they understand the changes they are merging into their branch before the merge happens.
+- [`git push`](#using-git-push) - sends changes from a local branch to a remote repo
+- [`git fetch`](#using-git-fetch) - retrieves changes from a remote repo into your tracking branch
+- [`git pull`](#using-git-pull) - retrieves changes from a remote branch into your tracking branch then merges them into a local branch
+
+#### Using `git push`
+
+This command sends changes from the current branch of the local repo to a remote repo. It first checks for a connected tracking branch on the remote repo. When confirmed, the changes then move to the remote branch for the repo.
+
+After using `git push`, the remote branch then has the same changes as the local branch for the repository.
+
+See the [Common issues](#common-issues) section for more about possible problems with using the command.
+
+#### Using `git fetch`
+
+The `fetch` command retrieves changes from a remote branch in a repo. It first confirms a connected tracking branch before retrieving the changes. After, it brings the changes to the tracking branch. This command doesn't change the local branch, however.
+
+To bring the changes into your local repository, use `git merge origin/master` for the `master` branch. Use this combination of commands for more transparency in understanding the changes between the local and remote branches before merging.
+
+#### Using `git pull`
+
+The `git pull` command combines the `fetch` and `merge` actions into one. It retrieves the changes, confirms the connected tracking branch, then merges the changes into the local branch. This command is a common practice as it reduces the number of commands to run.
+
+### Common issues
+
+The section below covers how commands may not work as intended.
+
+#### Diverging branches
+
+The `git push` command can fail if the remote branch diverges from the local branch. In this situation, not all the commits in the remote branch are in the local branch. You can resolve this issue with two solutions.
+
+- Synchronize your remote branch with `git pull` 
+- Use `git fetch`, then `git merge` to synchronize the branches
